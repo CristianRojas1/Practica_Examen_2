@@ -1,0 +1,46 @@
+This is ApacheBench, Version 2.3 <$Revision: 1879490 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient).....done
+
+
+Server Software:        nginx/1.18.0
+Server Hostname:        localhost
+Server Port:            443
+SSL/TLS Protocol:       TLSv1.2,ECDHE-RSA-AES256-GCM-SHA384,2048,256
+Server Temp Key:        X25519 253 bits
+TLS Server Name:        localhost
+
+Document Path:          /api/catalog
+Document Length:        8297 bytes
+
+Concurrency Level:      10
+Time taken for tests:   0.663 seconds
+Complete requests:      100
+Failed requests:        0
+Keep-Alive requests:    100
+Total transferred:      857600 bytes
+HTML transferred:       829700 bytes
+Requests per second:    150.82 [#/sec] (mean)
+Time per request:       66.302 [ms] (mean)
+Time per request:       6.630 [ms] (mean, across all concurrent requests)
+Transfer rate:          1263.15 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    1   3.2      0      12
+Processing:     6   57  53.7     27     238
+Waiting:        6   57  53.7     27     238
+Total:          6   58  55.7     28     250
+
+Percentage of the requests served within a certain time (ms)
+  50%     28
+  66%     80
+  75%     85
+  80%     87
+  90%     96
+  95%    172
+  98%    246
+  99%    250
+ 100%    250 (longest request)
