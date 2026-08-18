@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Aurora S.R.L. - Panel de Control</title>
+    <style>
+        :root {
+            --primary: #d4af37;
+            --primary-hover: #bfa130;
+            --bg-dark: #121212;
+            --bg-card: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --border: #333333;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: var(--primary);
+            margin: 0;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        h2 {
+            color: var(--primary);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-muted);
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            background-color: #2a2a2a;
+            color: var(--text-main);
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        button {
+            background-color: var(--primary);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            color: var(--primary);
+            background-color: #1a1a1a;
+        }
+        tr:hover {
+            background-color: #252525;
+        }
+        .success-msg {
+            color: #4caf50;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Café Aurora S.R.L.</h1>
+            <p style="color: var(--text-muted);">Módulo de Operaciones Integrado</p>
+        </header>
+
+        <div class="grid">
+            <!-- Sección Productos -->
+            <div class="card">
+                <h2>Catálogo de Productos</h2>
+                <div style="max-height: 400px; overflow-y: auto;">
+                    <table id="products-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Carga dinámica -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Sección Clientes -->
+            <div class="card">
+                <h2>Registrar Cliente</h2>
+                <form id="customer-form">
+                    <div class="form-group">
+                        <label>Nombre Completo</label>
+                        <input type="text" id="cust-name" required placeholder="Ej. Juan Pérez">
+                    </div>
+                    <div class="form-group">
+                        <label>Correo Electrónico</label>
+                        <input type="email" id="cust-email" required placeholder="Ej. juan@correo.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Número de Identidad (Se guardará CIFRADO)</label>
+                        <input type="text" id="cust-identity" required placeholder="Ej. 1-1234-5678">
+                    </div>
+                    <button type="submit">Registrar Cliente</button>
+                    <div id="cust-msg" class="success-msg"></div>
+                </form>
+            </div>
+        </div>
+
+        <div class="grid">
+            <!-- Crear Pedido -->
+            <div class="card">
+                <h2>Crear Nuevo Pedido</h2>
+                <form id="order-form">
+                    <div class="form-group">
+                        <label>Seleccionar Cliente</label>
+                        <select id="order-customer" required>
+                            <!-- Carga dinámica -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Seleccionar Producto</label>
+                        <select id="order-product" required>
+                            <!-- Carga dinámica -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Cantidad</label>
+                        <input type="number" id="order-qty" min="1" value="1" required>
+                    </div>
+                    <button type="submit">Procesar Compra</button>
+                    <div id="order-msg" class="success-msg"></div>
+                </form>
+            </div>
+
+            <!-- Inventario Legado (Apache) -->
+            <div class="card">
+                <h2>Consulta Módulo Legado (Apache)</h2>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Existencias obtenidas desde el sistema de stock legado:</p>
+                <div style="max-height: 250px; overflow-y: auto;">
+                    <table id="legacy-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Stock Físico</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Carga dinámica -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clientes Registrados -->
+        <div class="card" style="margin-bottom: 30px;">
+            <h2>Clientes Registrados (Cédula en claro descifrada por la API)</h2>
+            <table id="customers-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Identidad (PII)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Carga dinámica -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Cargar Datos Iniciales
+        async function loadAll() {
+            // 1. Cargar productos en la tabla y en el selector
+            try {
+                const resProducts = await fetch('/api/catalog');
+                const products = await resProducts.json();
+                const tableBody = document.querySelector('#products-table tbody');
+                const selectProd = document.querySelector('#order-product');
+                tableBody.innerHTML = '';
+                selectProd.innerHTML = '';
+                
+                products.forEach(p => {
+                    tableBody.innerHTML += `<tr><td>${p.id}</td><td>${p.name}</td><td>$${p.price}</td><td>${p.stock}</td></tr>`;
+                    selectProd.innerHTML += `<option value="${p.id}">${p.name} ($${p.price})</option>`;
+                });
+            } catch (e) { console.error("Error cargando productos", e); }
+
+            // 2. Cargar clientes en la tabla y en el selector
+            try {
+                const resCustomers = await fetch('/api/customers');
+                const customers = await resCustomers.json();
+                const tableBody = document.querySelector('#customers-table tbody');
+                const selectCust = document.querySelector('#order-customer');
+                tableBody.innerHTML = '';
+                selectCust.innerHTML = '';
+
+                customers.forEach(c => {
+                    tableBody.innerHTML += `<tr><td>${c.id}</td><td>${c.name}</td><td>${c.email}</td><td><strong>${c.identity}</strong></td></tr>`;
+                    selectCust.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+                });
+            } catch (e) { console.error("Error cargando clientes", e); }
+
+            // 3. Cargar inventario legado
+            try {
+                const resLegacy = await fetch('/legacy/inventory.php');
+                const legacyData = await resLegacy.json();
+                const tableBody = document.querySelector('#legacy-table tbody');
+                tableBody.innerHTML = '';
+                
+                legacyData.inventory.forEach(item => {
+                    tableBody.innerHTML += `<tr><td>${item.id}</td><td>${item.name}</td><td>${item.stock}</td></tr>`;
+                });
+            } catch (e) { console.error("Error cargando inventario legado", e); }
+        }
+
+        // Crear Cliente
+        document.querySelector('#customer-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.querySelector('#cust-name').value;
+            const email = document.querySelector('#cust-email').value;
+            const identity = document.querySelector('#cust-identity').value;
+
+            try {
+                const res = await fetch('/api/customers', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ name, email, identity })
+                });
+                if(res.ok) {
+                    document.querySelector('#cust-msg').innerText = "¡Cliente registrado con éxito!";
+                    document.querySelector('#customer-form').reset();
+                    loadAll();
+                    setTimeout(() => document.querySelector('#cust-msg').innerText = "", 3000);
+                }
+            } catch (err) { console.error(err); }
+        });
+
+        // Crear Pedido
+        document.querySelector('#order-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const customer_id = parseInt(document.querySelector('#order-customer').value);
+            const product_id = parseInt(document.querySelector('#order-product').value);
+            const quantity = parseInt(document.querySelector('#order-qty').value);
+
+            try {
+                const res = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        customer_id,
+                        items: [{ product_id, quantity }]
+                    })
+                });
+                if(res.ok) {
+                    document.querySelector('#order-msg').innerText = "¡Pedido procesado con éxito!";
+                    document.querySelector('#order-form').reset();
+                    loadAll();
+                    setTimeout(() => document.querySelector('#order-msg').innerText = "", 3000);
+                }
+            } catch (err) { console.error(err); }
+        });
+
+        window.onload = loadAll;
+    </script>
+</body>
+</html>
